@@ -56,7 +56,58 @@ public class ItemServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String itemCode = req.getParameter("iCode");
+        String description = req.getParameter("iName");
+        String qty = req.getParameter("iQty");
+        int unitPrice = Integer.parseInt(req.getParameter("iPrice"));
 
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Jsonajax", "root", "12345678");
+
+            PreparedStatement pstm = connection.prepareStatement("insert into item values(?,?,?,?)");
+            pstm.setObject(1, itemCode);
+            pstm.setObject(2, description);
+            pstm.setObject(3, qty);
+            pstm.setObject(4, unitPrice);
+            if (pstm.executeUpdate() > 0) {
+//                        resp.getWriter().println("Customer Added..!");
+                resp.addHeader("Content-Type","application/json");
+                JsonObjectBuilder AddedItem = Json.createObjectBuilder();
+
+                resp.addHeader("Content-Type","application/json");
+
+                AddedItem.add("state","OK");
+                AddedItem.add("message","Successfully Added");
+                AddedItem.add("data","");
+
+                resp.getWriter().print(AddedItem.build());
+
+            }
+
+        } catch (SQLException e) {
+            resp.addHeader("Content-Type","application/json");
+            JsonObjectBuilder ErrorItem = Json.createObjectBuilder();
+            resp.addHeader("Content-Type","application/json");
+            ErrorItem.add("state","Error");
+            ErrorItem.add("message",e.getMessage());
+            ErrorItem.add("data","");
+
+//            resp.setStatus(400);
+
+            resp.getWriter().print(ErrorItem.build());
+
+        } catch (ClassNotFoundException e) {
+            resp.addHeader("Content-Type","application/json");
+            JsonObjectBuilder ErrorItem = Json.createObjectBuilder();
+            resp.addHeader("Content-Type","application/json");
+            ErrorItem.add("state","Error");
+            ErrorItem.add("message",e.getMessage());
+            ErrorItem.add("data","");
+
+
+            resp.getWriter().print(ErrorItem.build());
+        }
     }
 
     @Override
