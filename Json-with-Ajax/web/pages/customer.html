@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--    http:://localhost:8080/pos_one/pages/customer.html-->
-  <!--    http:://localhost:8080/pos_one/pages/customer-->
-
-  <!--    http:://localhost:8080/pos_one/pages/customer-->
   <meta charset="UTF-8">
   <title>Customer Manage</title>
   <meta content="width=device-width initial-scale=1" name="viewport">
@@ -54,7 +50,7 @@
         </div>
         <div class="form-group">
           <label for="txtCustomerSalary">Customer Salary</label>
-          <input name="cusSalary" class="form-control" id="txtCustomerSalary" type="text">
+          <input name="cusSalary" class="form-control" id="txtCustomerSalary" type="tel">
           <span class="control-error" id="lblcussalary"></span>
         </div>
         <div class="btn-group">
@@ -116,6 +112,24 @@
       }
     })
   }
+
+  $('#btnCustomer').click(function () {
+    console.log("clicked");
+    let formData = $('#customerForm').serialize();
+
+    $.ajax({
+      url: "customer",
+      method:"post",
+      data:formData,
+      success:function (res) {
+        getAll()
+        alert(res.message);
+      },
+      error:function (error){
+        alert(error.message)
+      }
+    })
+  })
 
 </script>
 
