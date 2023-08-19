@@ -131,6 +131,42 @@
     })
   })
 
+  $('#btnUpdate').click(function () {
+    console.log("clicked");
+    let formData = $('#customerForm').serialize();
+
+    $.ajax({
+      url: "customer",
+      method:"put",
+      data:formData,
+      success:function (res) {
+        getAll()
+        alert(res.message);
+      },
+      error:function (error){
+        alert(error.message)
+      }
+    })
+  })
+
+  $('#btnCusDelete').click(function () {
+    console.log("clicked");
+    let formData = $('#customerForm').serialize();
+
+    $.ajax({
+      url: "customer",
+      method:"delete",
+      data:formData,
+      success:function (res) {
+        getAll()
+        alert(res.message);
+      },
+      error:function (error){
+        alert(error.message)
+      }
+    })
+  })
+
 </script>
 
 </body>
