@@ -171,9 +171,7 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String cusID = req.getParameter("cusID");
-        String cusName = req.getParameter("cusName");
-        String cusAddress = req.getParameter("cusAddress");
-        int cusSalary = Integer.parseInt(req.getParameter("cusSalary"));
+        resp.addHeader("Content-type", "application/json");
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -189,7 +187,7 @@ public class CustomerServlet extends HttpServlet {
                 resp.addHeader("Content-Type","application/json");
 
                 AddedCus.add("state","OK");
-                AddedCus.add("message","Successfully Added");
+                AddedCus.add("message","Successfully Deleted");
                 AddedCus.add("data","");
 
                 resp.getWriter().println(AddedCus.build());

@@ -160,13 +160,15 @@
 
   $('#btnCusDelete').click(function () {
     console.log("clicked");
-    let formData = $('#customerForm').serialize();
+    let cusID = $('#txtCustomerID').val();
+
 
     $.ajax({
-      url: "customer",
+      url:'customer?cusID='+cusID,
       type:"DELETE",
       dataType:"json",
-      data:formData,
+      contentType: "application/json",
+      // data:JSON.stringify(cusID),
       success:function (res) {
         getAll()
         alert(res.message);
