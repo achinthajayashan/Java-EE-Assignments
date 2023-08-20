@@ -54,8 +54,8 @@
         </div>
         <div class="btn-group">
           <button  type="button" class="btn btn-primary" id="btnItem">Add Item</button>
-          <button formaction="item?option=delete" formmethod="post" class="btn btn-danger" id="btnItemDelete">Remove</button>
-          <button formaction="item?option=update" formmethod="post" class="btn btn-warning" id="btnItemUpdate">Update</button>
+          <button type="button" class="btn btn-danger" id="btnItemDelete">Remove</button>
+          <button type="button" class="btn btn-warning" id="btnItemUpdate">Update</button>
           <button type="button" class="btn btn-success" id="btnGetAll">Get All</button>
           <button class="btn btn-danger" id="btn-clear">Clear All</button>
         </div>
@@ -131,6 +131,33 @@
         alert(error.message)
       }
     })
+  })
+
+  $('#btnItemUpdate').click(function () {
+    console.log("clicked");
+
+    let itemCode = $('#itemCode').val();
+    let itemName = $('#itemName').val();
+    let itemQty = $('#itemQty').val();
+    let itemPrice = $('#itemPrice').val();
+
+    let itemObject={code:itemCode,description:itemName,qty:itemQty,unitPrice:itemPrice}
+    JSON.stringify(itemObject);
+    $.ajax({
+      url:'item',
+      method:'put',
+      dataType: "json",
+      contentType:"application/json",
+      data:JSON.stringify(itemObject),
+      success:function (res) {
+        console.log(res);
+        getAll();
+        alert(res.message);
+      },
+      error:function (error) {
+        console.log(error.status);
+      }
+    });
   })
 
 </script>
