@@ -133,20 +133,29 @@
 
   $('#btnUpdate').click(function () {
     console.log("clicked");
-    let formData = $('#customerForm').serialize();
 
+    let cusID = $('#txtCustomerID').val();
+    let customerName = $('#txtCustomerName').val();
+    let customerAddress = $('#txtCustomerAddress').val();
+    let customerSalary = $('#txtCustomerSalary').val();
+
+    let customerObject={id:cusID,name:customerName,address:customerAddress,salary:customerSalary}
+    JSON.stringify(customerObject);
     $.ajax({
-      url: "customer",
-      method:"put",
-      data:formData,
+      url:'customer',
+      method:'put',
+      dataType: "json",
+      contentType:"application/json",
+      data:JSON.stringify(customerObject),
       success:function (res) {
-        getAll()
+        console.log(res);
+        getAll();
         alert(res.message);
       },
-      error:function (error){
-        alert(error.message)
+      error:function (error) {
+        console.log(error.status);
       }
-    })
+    });
   })
 
   $('#btnCusDelete').click(function () {
@@ -155,7 +164,8 @@
 
     $.ajax({
       url: "customer",
-      method:"delete",
+      type:"DELETE",
+      dataType:"json",
       data:formData,
       success:function (res) {
         getAll()

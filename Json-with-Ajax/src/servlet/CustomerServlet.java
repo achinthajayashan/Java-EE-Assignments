@@ -1,8 +1,6 @@
 package servlet;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -113,10 +111,14 @@ public class CustomerServlet extends HttpServlet {
 
         @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String cusID = req.getParameter("cusID");
-            String cusName = req.getParameter("cusName");
-            String cusAddress = req.getParameter("cusAddress");
-            int cusSalary = Integer.parseInt(req.getParameter("cusSalary"));
+            resp.addHeader("Content-Type","application/json");
+            JsonReader reader = Json.createReader(req.getReader());
+            JsonObject customerOB = reader.readObject();
+
+            String cusID = customerOB.getString("id");
+            String cusName = customerOB.getString("name");
+            String cusAddress = customerOB.getString("address");
+            String cusSalary = customerOB.getString("salary");
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");
