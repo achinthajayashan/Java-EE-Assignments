@@ -160,6 +160,27 @@
     });
   })
 
+  $('#btnItemDelete').click(function () {
+    console.log("clicked");
+    let itemCode = $('#itemCode').val();
+
+
+    $.ajax({
+      url:'item?itemCode='+itemCode,
+      type:"DELETE",
+      dataType:"json",
+      contentType: "application/json",
+      // data:JSON.stringify(cusID),
+      success:function (res) {
+        getAll()
+        alert(res.message);
+      },
+      error:function (error){
+        alert(error.message)
+      }
+    })
+  })
+
 </script>
 </body>
 </html>
